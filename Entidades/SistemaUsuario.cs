@@ -6,8 +6,8 @@ namespace WebApiLoteria.Entidades
     {
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Correo { get; set; }
         [Required]
-        public string Password { get; set; }
+        public string Contraseña { get; set; }
     }
 }

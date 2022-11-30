@@ -3,7 +3,7 @@
     public class EscribirEnArchivo : IHostedService
     {
         private readonly IWebHostEnvironment env;
-        private readonly string nombreArchivo = "ArchivoInicio.txt";
+        private readonly string nombreArchivo = "Registros.txt";
         private Timer timer;
         public EscribirEnArchivo(IWebHostEnvironment env)
         {
@@ -11,21 +11,21 @@
         }
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
-            Escribir("Proceso Iniciado");
+            timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(15));
+            Escribir("Inicio del procesamiento");
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
             timer.Dispose();
-            Escribir("Proceso Finalizado");
+            Escribir("Fin del procesamiento");
             return Task.CompletedTask;
         }
 
         private void DoWork(object state)
         {
-            Escribir("Proceso en ejecucion: " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"));
+            Escribir("Ejecucion en proceso: " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"));
         }
         private void Escribir(string msg)
         {

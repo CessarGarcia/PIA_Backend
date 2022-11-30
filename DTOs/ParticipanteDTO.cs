@@ -5,7 +5,6 @@ namespace WebApiLoteria.DTOs
 {
     public class ParticipanteDTO
     {
-        // public int Id { get; set; }
         [Required(ErrorMessage = "El campo {0} es necesario")]
         [StringLength(maximumLength: 15, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
         [PrimeraLetraMayuscula]
@@ -14,15 +13,17 @@ namespace WebApiLoteria.DTOs
         [Required(ErrorMessage = "El campo {0} es necesario")]
         [StringLength(maximumLength: 15, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
         [PrimeraLetraMayuscula]
-        public string ApellidoP { get; set; }
+        public string ApellidoPaterno { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es necesario")]
         [StringLength(maximumLength: 15, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
         [PrimeraLetraMayuscula]
-        public string ApellidoM { get; set; }
+        public string ApellidoMaterno { get; set; }
 
         public int IdRifa { get; set; }
 
+        [StringLength(maximumLength: 10, ErrorMessage = "El campo debe tener como maximo 10 caracteres")]
+        public string Telefono { get; set; }
 
         public DateTime FechaInscripcion { get; set; }
 

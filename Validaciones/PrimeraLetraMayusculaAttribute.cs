@@ -14,7 +14,7 @@ namespace WebApiLoteria.Validaciones
             var primeraletra = value.ToString()[0].ToString();
             if (primeraletra != primeraletra.ToUpper())
             {
-                return new ValidationResult("La primera letra debe ser mayuscula ");
+                return new ValidationResult("Debe ser Mayúscula la primera letra");
             }
             return ValidationResult.Success;
         }

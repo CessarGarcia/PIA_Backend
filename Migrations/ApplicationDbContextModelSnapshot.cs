@@ -228,12 +228,12 @@ namespace WebApiLoteria.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ApellidoM")
+                    b.Property<string>("ApellidoMaterno")
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<string>("ApellidoP")
+                    b.Property<string>("ApellidoPaterno")
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
@@ -246,9 +246,40 @@ namespace WebApiLoteria.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
+                    b.Property<string>("Telefono")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Participantes");
+                });
+
+            modelBuilder.Entity("WebApiLoteria.Entidades.Premio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("precio")
+                        .HasColumnType("int");
+
+                    b.Property<int>("rifaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("rifaId");
+
+                    b.ToTable("Premio");
                 });
 
             modelBuilder.Entity("WebApiLoteria.Entidades.Rifa", b =>
@@ -338,6 +369,17 @@ namespace WebApiLoteria.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebApiLoteria.Entidades.Premio", b =>
+                {
+                    b.HasOne("WebApiLoteria.Entidades.Rifa", "Rifa")
+                        .WithMany("Premio")
+                        .HasForeignKey("rifaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rifa");
+                });
+
             modelBuilder.Entity("WebApiLoteria.Entidades.RifaParticipante", b =>
                 {
                     b.HasOne("WebApiLoteria.Entidades.Participante", "Participante")
@@ -364,6 +406,8 @@ namespace WebApiLoteria.Migrations
 
             modelBuilder.Entity("WebApiLoteria.Entidades.Rifa", b =>
                 {
+                    b.Navigation("Premio");
+
                     b.Navigation("RifasParticipantes");
                 });
 #pragma warning restore 612, 618

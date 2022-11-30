@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApiLoteria.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class Premios : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,8 +55,9 @@ namespace WebApiLoteria.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    ApellidoP = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    ApellidoM = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    ApellidoPaterno = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    ApellidoMaterno = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    Telefono = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     FechaInscripcion = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -184,6 +185,28 @@ namespace WebApiLoteria.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Premio",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    precio = table.Column<int>(type: "int", nullable: false),
+                    rifaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Premio", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Premio_Rifas_rifaId",
+                        column: x => x.rifaId,
+                        principalTable: "Rifas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RifasParticipantes",
                 columns: table => new
                 {
@@ -248,6 +271,11 @@ namespace WebApiLoteria.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Premio_rifaId",
+                table: "Premio",
+                column: "rifaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RifasParticipantes_ParticipanteId",
                 table: "RifasParticipantes",
                 column: "ParticipanteId");
@@ -269,6 +297,9 @@ namespace WebApiLoteria.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Premio");
 
             migrationBuilder.DropTable(
                 name: "RifasParticipantes");

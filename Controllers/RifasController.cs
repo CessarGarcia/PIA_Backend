@@ -11,7 +11,7 @@ namespace WebApiLoteria.Controllers
 {
     [ApiController]
     [Route("api/rifas")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Autorizado")]
     public class RifasController : ControllerBase
     {
 

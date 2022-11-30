@@ -30,8 +30,8 @@ namespace WebApiLoteria.Controllers
         [HttpPost("registrar")]
         public async Task<ActionResult<AutenticacionResp>> Registrar(SistemaUsuario sistema)
         {
-            var user = new IdentityUser { UserName = sistema.Email, Email = sistema.Email };
-            var result = await userManager.CreateAsync(user, sistema.Password);
+            var user = new IdentityUser { UserName = sistema.Correo, Email = sistema.Correo };
+            var result = await userManager.CreateAsync(user, sistema.Contraseña);
 
             if (result.Succeeded)
             {
@@ -43,11 +43,11 @@ namespace WebApiLoteria.Controllers
             }
         }
 
-        [HttpPost("login")]
+        [HttpPost("iniciarSeccion")]
         public async Task<ActionResult<AutenticacionResp>> Login(SistemaUsuario sistemaUsuario)
         {
-            var result = await signInManager.PasswordSignInAsync(sistemaUsuario.Email,
-                sistemaUsuario.Password, isPersistent: false, lockoutOnFailure: false);
+            var result = await signInManager.PasswordSignInAsync(sistemaUsuario.Correo,
+                sistemaUsuario.Contraseña, isPersistent: false, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
@@ -55,21 +55,21 @@ namespace WebApiLoteria.Controllers
             }
             else
             {
-                return BadRequest("Login Incorrecto");
+                return BadRequest("Error al iniciar sección");
             }
 
         }
 
-        [HttpGet("RenovarToken")]
+        [HttpGet("cambiarToken")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<AutenticacionResp>> Renovar()
         {
-            var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
+            var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "correo").FirstOrDefault();
             var email = emailClaim.Value;
 
             var credenciales = new SistemaUsuario()
             {
-                Email = email
+                Correo = email
             };
 
             return await ConstruirToken(credenciales);
@@ -81,11 +81,11 @@ namespace WebApiLoteria.Controllers
          
             var claims = new List<Claim>
             {
-                new Claim("email", sistemaUsuario.Email)
+                new Claim("correo", sistemaUsuario.Correo)
                 
             };
 
-            var usuario = await userManager.FindByEmailAsync(sistemaUsuario.Email);
+            var usuario = await userManager.FindByEmailAsync(sistemaUsuario.Correo);
             var claimsDB = await userManager.GetClaimsAsync(usuario);
 
             claims.AddRange(claimsDB);
@@ -93,7 +93,7 @@ namespace WebApiLoteria.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["keyjwt"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expiration = DateTime.UtcNow.AddMinutes(30);
+            var expiration = DateTime.UtcNow.AddMinutes(15);
 
             var securityToken = new JwtSecurityToken(issuer: null, audience: null, claims: claims,
                 expires: expiration, signingCredentials: creds);
@@ -105,23 +105,21 @@ namespace WebApiLoteria.Controllers
             };
         }
 
-        [HttpPost("HacerAdmin")]
+        [HttpPost("hacerAdmin")]
         public async Task<ActionResult> HacerAdmin(EditarAdminDTO editarAdminDTO)
         {
             var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);
 
-            await userManager.AddClaimAsync(usuario, new Claim("EsAdmin", "1"));
+            await userManager.AddClaimAsync(usuario, new Claim("Autorizado", "Si"));
 
             return NoContent();
         }
 
-        [HttpPost("RemoverAdmin")]
+        [HttpPost("eliminarAdmin")]
         public async Task<ActionResult> RemoverAdmin(EditarAdminDTO editarAdminDTO)
         {
             var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);
-
-            await userManager.RemoveClaimAsync(usuario, new Claim("EsAdmin", "1"));
-
+            await userManager.RemoveClaimAsync(usuario, new Claim("Autorizado", "Si"));
             return NoContent();
         }
 

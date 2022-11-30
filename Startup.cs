@@ -66,8 +66,8 @@ namespace WebApiLoteria
 
             services.AddAuthorization(opciones =>
             {
-                opciones.AddPolicy("EsAdmin", politica => politica.RequireClaim("esAdmin"));
-                opciones.AddPolicy("EsParticipante", politica => politica.RequireClaim("EsParticipante"));
+                opciones.AddPolicy("Autorizado", politica => politica.RequireClaim("autorizado"));
+                opciones.AddPolicy("EsParticipante", politica => politica.RequireClaim("esParticipante"));
             });
             services.AddTransient<FiltroPersonalizado>();
             services.AddHostedService<EscribirEnArchivo>();

@@ -22,5 +22,7 @@ namespace WebApiLoteria
         public DbSet<Participante> Participantes { get; set; }
 
         public DbSet<RifaParticipante> RifasParticipantes { get; set; }
+        public DbSet<Premio> Premio { get; set; }
+
     }
 }

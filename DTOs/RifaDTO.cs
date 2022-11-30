@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebApiLoteria.Entidades;
 
 namespace WebApiLoteria.DTOs
 {
@@ -9,5 +10,6 @@ namespace WebApiLoteria.DTOs
         [StringLength(maximumLength: 60, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
         public string NombreRifa { get; set; }
 
+        public List<Premio> Premio{ get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace WebApiLoteria.Controllers
             this.logger = logger;
             this.mapper = mapper;
         }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Autorizado")]
         [HttpGet]
         [ServiceFilter(typeof(FiltroPersonalizado))]
         public async Task<ActionResult<List<Participante>>> GetAll()
@@ -43,21 +43,11 @@ namespace WebApiLoteria.Controllers
             {
                 return NotFound();
             }
-            // participante.RifasParticipantes = participante.RifasParticipantes.OrderBy(x => x.Orden).ToList();
+            
             return mapper.Map<GetParticipantesDTO>(participante);
         }
 
-        //[HttpGet("{id:int}", Name = "obtenerParticipantedos")]
-        //public async Task<ActionResult<ParticipantesDTOConRifas>> GetById2(int id)
-        //{
-        //    logger.LogInformation("Se obtiene Participante por id");
-        //    var participante = await dbContext.Participantes.FirstOrDefaultAsync(x => x.Id == id);
-        //    participante.RifaParticipante = participante.RifaParticipante.OrderBy(x => x.Orden).ToList();
-        //    return mapper.Map<ParticipantesDTOConRifas>(participante);
-        //}
-
         [HttpPost]
-        //[ServiceFilter(typeof(FiltroPersonalizado))]
         public async Task<ActionResult> Post(ParticipanteDTO participanteDTO)
         {
             var existe = await dbContext.Participantes.AnyAsync(x => x.Id == participanteDTO.IdRifa);
@@ -73,38 +63,42 @@ namespace WebApiLoteria.Controllers
             await dbContext.SaveChangesAsync();
             var DTOparticipante = mapper.Map<GetParticipantesDTO>(participante);
             return CreatedAtRoute("obtenerParticipante", new { id = participante.Id }, DTOparticipante);
-
-
         }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Autorizado")]
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(CrearParticipanteDTO crearParticipanteDTO, int id)
+         public async Task<ActionResult> Put(ParticipanteDTO participanteDTO, int id)
         {
             var existe = await dbContext.Participantes.AnyAsync(x => x.Id == id);
             if (!existe)
             {
-                return NotFound("El participante no existe");
+                return NotFound("El usuario no existe");
             }
 
-            var participante = mapper.Map<Participante>(crearParticipanteDTO);
+            var participante = mapper.Map<Participante>(participanteDTO);
+            participante.Id = id;
+
             dbContext.Update(participante);
             await dbContext.SaveChangesAsync();
             return NoContent();
         }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+        
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Autorizado")]
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
             var existe = await dbContext.Participantes.AnyAsync(x => x.Id == id);
             if (!existe)
             {
-                return NotFound("No se encontro el participante");
+                return NotFound("No fue encontrado el participante en la BD");
             }
             dbContext.Remove(new Participante { Id = id });
             await dbContext.SaveChangesAsync();
             return Ok();
         }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Autorizado")]
         [HttpPatch("{id:int}")]
         public async Task<ActionResult> Patch(int id, JsonPatchDocument<ParticipantePatchDTO> patchDocument)
         {

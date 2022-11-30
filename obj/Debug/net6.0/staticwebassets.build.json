@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "GmnmNz9RHlB5i9Cvg27OWhlDW99osu9NKPTurReeRyw=",
+  "Hash": "w9KdiKHWAHQsv+fPUwfhOaLkT+d41zSuWQdtnBkEgx0=",
   "Source": "WebApiLoteria",
   "BasePath": "_content/WebApiLoteria",
   "Mode": "Default",
@@ -17,12 +17,12 @@
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\Céssar García\\OneDrive - Universidad Autonoma de Nuevo León\\Documents\\Programacion\\C#\\PIA Backend\\PiaBackEnd\\WebApiLoteria\\wwwroot\\ArchivoInicio.txt",
+      "Identity": "C:\\Users\\Céssar García\\OneDrive - Universidad Autonoma de Nuevo León\\Documents\\Programacion\\C#\\PIA Backend\\PiaBackEnd\\WebApiLoteria\\wwwroot\\Registros.txt",
       "SourceId": "WebApiLoteria",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Céssar García\\OneDrive - Universidad Autonoma de Nuevo León\\Documents\\Programacion\\C#\\PIA Backend\\PiaBackEnd\\WebApiLoteria\\wwwroot\\",
       "BasePath": "_content/WebApiLoteria",
-      "RelativePath": "ArchivoInicio.txt",
+      "RelativePath": "Registros.txt",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -31,7 +31,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\ArchivoInicio.txt"
+      "OriginalItemSpec": "wwwroot\\Registros.txt"
     }
   ]
 }
