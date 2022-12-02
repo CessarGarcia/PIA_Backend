@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApiLoteria.Migrations
 {
-    public partial class Premios : Migration
+    public partial class Participantes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,8 +55,8 @@ namespace WebApiLoteria.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    ApellidoPaterno = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    ApellidoMaterno = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    Apellido = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    Edad = table.Column<int>(type: "int", nullable: false),
                     Telefono = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     FechaInscripcion = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },

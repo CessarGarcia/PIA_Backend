@@ -13,7 +13,7 @@ namespace WebApiLoteria.Controllers
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
-        
+
         public PremioController(ApplicationDbContext context, IMapper mapper)
         {
             this.dbContext = context;
@@ -35,7 +35,7 @@ namespace WebApiLoteria.Controllers
         public async Task<ActionResult> Post(int idRifa, PremioDTO premioDtO)
         {
             var rifaExiste = await dbContext.Rifas.AnyAsync(vetDB => vetDB.Id == idRifa);
-            if(rifaExiste == false)
+            if (rifaExiste == false)
             {
                 return NotFound();
             }
@@ -53,14 +53,14 @@ namespace WebApiLoteria.Controllers
         public async Task<ActionResult> Put(int idRifa, int id, PremioDTO CrearPremioDTO)
         {
             var rifaExiste = await dbContext.Rifas.AnyAsync(vetDB => vetDB.Id == idRifa);
-            if(rifaExiste == false)
+            if (rifaExiste == false)
             {
                 return NotFound();
             }
 
             var premioExiste = await dbContext.Premio.AnyAsync(premioDB => premioDB.Id == id);
 
-            if(premioExiste == false)
+            if (premioExiste == false)
             {
                 return NotFound();
             }
@@ -73,5 +73,20 @@ namespace WebApiLoteria.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id:int} eliminarPremio")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var existe = await dbContext.Premio.AnyAsync(x => x.Id == id);
+            if (existe == false)
+            {
+                return NotFound("No se encontró el premio");
+            }
+            dbContext.Remove(new Premio()
+            {
+                Id = id,
+            });
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }
     }
 }

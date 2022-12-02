@@ -12,8 +12,8 @@ using WebApiLoteria;
 namespace WebApiLoteria.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221130001556_Premios")]
-    partial class Premios
+    [Migration("20221130200656_Participantes")]
+    partial class Participantes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -230,15 +230,13 @@ namespace WebApiLoteria.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ApellidoMaterno")
+                    b.Property<string>("Apellido")
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<string>("ApellidoPaterno")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                    b.Property<int>("Edad")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("FechaInscripcion")
                         .HasColumnType("datetime2");

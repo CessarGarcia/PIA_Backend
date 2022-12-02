@@ -228,15 +228,13 @@ namespace WebApiLoteria.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ApellidoMaterno")
+                    b.Property<string>("Apellido")
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<string>("ApellidoPaterno")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                    b.Property<int>("Edad")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("FechaInscripcion")
                         .HasColumnType("datetime2");

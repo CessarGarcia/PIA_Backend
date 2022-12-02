@@ -7,32 +7,25 @@ namespace WebApiLoteria.Entidades
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El campo {0} es necesario")]
-        [StringLength(maximumLength: 15, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
+        [Required(ErrorMessage = "Este campo es necesario")]
+        [StringLength(maximumLength: 15, ErrorMessage = "El campo no puede tener mas caracteres")]
         [PrimeraLetraMayuscula]
         public string Nombre { get; set; }
 
-        [Required(ErrorMessage = "El campo {0} es necesario")]
-        [StringLength(maximumLength: 15, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
+        [Required(ErrorMessage = "Este campo es necesario")]
+        [StringLength(maximumLength: 15, ErrorMessage = "El campo no puede tener mas caracteres")]
         [PrimeraLetraMayuscula]
-        public string ApellidoPaterno { get; set; }
+        public string Apellido { get; set; }
 
-        [Required(ErrorMessage = "El campo {0} es necesario")]
-        [StringLength(maximumLength: 15, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
-        [PrimeraLetraMayuscula]
-        public string ApellidoMaterno { get; set; }
+        [Required(ErrorMessage = "Este campo es necesario")]
+        public int Edad { get; set; }
      
         [StringLength(maximumLength: 10, ErrorMessage = "El campo debe tener como maximo 10 caracteres")]
         public string Telefono { get; set; }
 
         public DateTime? FechaInscripcion { get; set; }
 
-
-
-
-
         public List<RifaParticipante> RifasParticipantes { get; set; }
-
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -46,23 +39,13 @@ namespace WebApiLoteria.Entidades
                 }
             }
 
-            if (!string.IsNullOrEmpty(ApellidoPaterno))
+            if (!string.IsNullOrEmpty(Apellido))
             {
-                var primeraLetra = ApellidoPaterno[0].ToString();
+                var primeraLetra = Apellido[0].ToString();
                 if (primeraLetra != primeraLetra.ToUpper())
                 {
                     yield return new ValidationResult("Debe ser Mayúscula la primera letra",
-                            new string[] { nameof(ApellidoPaterno) });
-                }
-            }
-
-            if (!string.IsNullOrEmpty(ApellidoMaterno))
-            {
-                var primeraLetra = ApellidoMaterno[0].ToString();
-                if (primeraLetra != primeraLetra.ToUpper())
-                {
-                    yield return new ValidationResult("Debe ser Mayúscula la primera letra",
-                            new string[] { nameof(ApellidoMaterno) });
+                            new string[] { nameof(Apellido) });
                 }
             }
         }
